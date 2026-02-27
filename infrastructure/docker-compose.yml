@@ -1,0 +1,47 @@
+﻿version: '3.8'
+
+services:
+  postgres:
+    image: timescale/timescaledb:latest-pg14
+    container_name: smarthome-postgres
+    environment:
+      POSTGRES_DB: smarthome
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - smarthome-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: smarthome-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - smarthome-network
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: smarthome-mqtt
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - smarthome-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  smarthome-network:
+    driver: bridge

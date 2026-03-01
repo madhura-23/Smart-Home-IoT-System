@@ -4,13 +4,13 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { connectDatabase } = require('./config/database');
 const { connectRedis } = require('./config/redis');
+const { initMQTT } = require('./mqtt/client');
 const routes = require('./routes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(helmet());
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
@@ -19,17 +19,14 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Request logging
 app.use((req, res, next) => {
   const timestamp = new Date().toISOString();
   console.log(timestamp + ' - ' + req.method + ' ' + req.path);
   next();
 });
 
-// API Routes
 app.use('/api/v1', routes);
 
-// Root endpoint
 app.get('/', (req, res) => {
   res.json({
     success: true,
@@ -38,15 +35,14 @@ app.get('/', (req, res) => {
     endpoints: {
       health: '/api/v1/health',
       auth: '/api/v1/auth',
-      docs: '/api/v1/docs'
+      devices: '/api/v1/devices',
+      rooms: '/api/v1/rooms'
     }
   });
 });
 
-// Error handling
 app.use(errorHandler);
 
-// 404 handler
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -57,14 +53,12 @@ app.use((req, res) => {
   });
 });
 
-// Start server
 async function startServer() {
   try {
-    // Connect to databases
     await connectDatabase();
     await connectRedis();
+    await initMQTT();
     
-    // Start listening
     app.listen(PORT, () => {
       console.log('');
       console.log('================================');

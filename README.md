@@ -250,11 +250,11 @@ Smart-Home-IoT-System/
 ## 📊 Demo
 
 ### Dashboard
-![Dashboard](./docs/images/dashboard.png)
+![Dashboard](./docs/image/dashboard.png)
 *Real-time device monitoring with live sensor data*
 
 ### Device Management
-![Devices](./docs/images/devices.png)
+![Devices](./docs/image/devices.png)
 *Manage all your smart home devices in one place*
 
 ### Live Updates
@@ -379,6 +379,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Made with ❤️ by [Madmess](https://github.com/madhura-23)
 
 </div>
+
 
 
 

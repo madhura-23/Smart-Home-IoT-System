@@ -368,7 +368,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=madhura-23/Smart-Home-IoT-System&type=Date)](https://madhurabhat2310@gmail.com/#madmess/Smart-Home-IoT-System&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=madhura-23/Smart-Home-IoT-System&type=02/March/26)](https://madhurabhat2310@gmail.com/#madmess/Smart-Home-IoT-System& 2th march)
 
 ---
 
@@ -379,6 +379,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Made with ❤️ by [Madmess](https://github.com/madhura-23)
 
 </div>
+
 
 
 

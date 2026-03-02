@@ -48,14 +48,22 @@ export default function DeviceCard({ device, onControl }: DeviceCardProps) {
         <p className="text-sm text-gray-600 mb-2">📍 {device.room.name}</p>
       )}
 
-      {device.state && Object.keys(device.state).length > 0 && (
-        <div className="mt-4 p-3 bg-gray-50 rounded">
-          <p className="text-sm font-semibold mb-2">Current State:</p>
-          {Object.entries(device.state).map(([key, value]) => (
-            <p key={key} className="text-sm text-gray-700">
-              {key}: {JSON.stringify(value)}
-            </p>
-          ))}
+      {device.type === 'temperature_sensor' && device.state && (
+        <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
+          <div className="flex justify-between items-center">
+            <div>
+              <p className="text-sm text-gray-600">Temperature</p>
+              <p className="text-2xl font-bold text-blue-600">
+                {device.state.temperature}°C
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Humidity</p>
+              <p className="text-2xl font-bold text-purple-600">
+                {device.state.humidity}%
+              </p>
+            </div>
+          </div>
         </div>
       )}
 

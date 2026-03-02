@@ -2,6 +2,8 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const http = require('http');
+const { Server } = require('socket.io');
 const { connectDatabase } = require('./config/database');
 const { connectRedis } = require('./config/redis');
 const { initMQTT } = require('./mqtt/client');
@@ -9,6 +11,14 @@ const routes = require('./routes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    credentials: true
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.use(helmet());
@@ -53,17 +63,27 @@ app.use((req, res) => {
   });
 });
 
+// Socket.io connection
+io.on('connection', (socket) => {
+  console.log('🔌 Client connected:', socket.id);
+  
+  socket.on('disconnect', () => {
+    console.log('🔌 Client disconnected:', socket.id);
+  });
+});
+
 async function startServer() {
   try {
     await connectDatabase();
     await connectRedis();
-    await initMQTT();
+    await initMQTT(io);
     
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log('');
       console.log('================================');
       console.log('Server running on port ' + PORT);
       console.log('API URL: http://localhost:' + PORT + '/api/v1');
+      console.log('WebSocket: ws://localhost:' + PORT);
       console.log('================================');
       console.log('');
     });

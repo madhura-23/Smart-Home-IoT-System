@@ -1,4 +1,4 @@
-markdown<div align="center">
+<div align="center">
 
 # 🏠 Smart Home IoT System
 
@@ -349,7 +349,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 **Your Name**
 
-- GitHub: [madhura-23](https://github.com/madhura-23))
+- GitHub: [madhura-23](https://github.com/madhura-23)
 - LinkedIn: [Madhura Bhatt](https://linkedin.com/in/madhura-bhatt23)
 - Email: madhurabhat2310@gmail.com
 
@@ -368,7 +368,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/Smart-Home-IoT-System&type=Date)](https://star-history.com/#yourusername/Smart-Home-IoT-System&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=madhura-23/Smart-Home-IoT-System&type=Date)](https://madhurabhat2310@gmail.com/#madmess/Smart-Home-IoT-System&Date)
 
 ---
 
@@ -379,5 +379,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Made with ❤️ by [Madmess](https://github.com/madhura-23)
 
 </div>
+
 
 

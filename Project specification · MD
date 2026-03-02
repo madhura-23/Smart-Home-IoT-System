@@ -1,0 +1,484 @@
+# Smart Home IoT System - Project Specification
+
+## 🎯 Project Overview
+
+A full-stack, production-ready Smart Home IoT System that demonstrates enterprise-level software engineering practices. This system allows users to monitor and control IoT devices in real-time through a web/mobile interface, with emphasis on scalability, security, and real-time data processing.
+
+## 🏗️ System Architecture
+
+### High-Level Architecture
+```
+┌─────────────────┐         ┌──────────────────┐         ┌─────────────────┐
+│   IoT Devices   │◄────────│  MQTT Broker     │────────►│   Backend API   │
+│  (Simulated)    │         │  (Mosquitto)     │         │   (Node.js)     │
+└─────────────────┘         └──────────────────┘         └─────────────────┘
+                                                                    │
+                                                                    │
+                            ┌───────────────────────────────────────┤
+                            │                                       │
+                            ▼                                       ▼
+                    ┌─────────────────┐                   ┌─────────────────┐
+                    │   PostgreSQL    │                   │   Redis Cache   │
+                    │   (Time-series) │                   │   (Real-time)   │
+                    └─────────────────┘                   └─────────────────┘
+                                                                    │
+                                                                    │
+                                                                    ▼
+                                                          ┌─────────────────┐
+                                                          │  WebSocket API  │
+                                                          └─────────────────┘
+                                                                    │
+                                                                    ▼
+                                                          ┌─────────────────┐
+                                                          │  React Frontend │
+                                                          │  (Dashboard)    │
+                                                          └─────────────────┘
+```
+
+## 📁 Project Structure
+
+```
+smart-home-iot-system/
+├── api-design/
+│   ├── endpoints.md              # API documentation
+│   └── schemas/                  # JSON schemas for validation
+├── backend/
+│   ├── src/
+│   │   ├── controllers/          # Route controllers
+│   │   ├── models/               # Database models
+│   │   ├── services/             # Business logic
+│   │   ├── middleware/           # Auth, validation, logging
+│   │   ├── mqtt/                 # MQTT client & handlers
+│   │   ├── websocket/            # WebSocket handlers
+│   │   └── utils/                # Helper functions
+│   ├── tests/                    # Unit & integration tests
+│   ├── Dockerfile
+│   └── package.json
+├── frontend/
+│   ├── src/
+│   │   ├── components/           # React components
+│   │   ├── pages/                # Page components
+│   │   ├── hooks/                # Custom hooks
+│   │   ├── services/             # API & WebSocket services
+│   │   ├── store/                # State management (Redux/Zustand)
+│   │   └── utils/                # Helper functions
+│   ├── public/
+│   ├── Dockerfile
+│   └── package.json
+├── simulation/
+│   ├── devices/                  # Device simulators
+│   │   ├── temperature_sensor.py
+│   │   ├── light_controller.py
+│   │   ├── door_lock.py
+│   │   ├── security_camera.py
+│   │   └── thermostat.py
+│   ├── device_manager.py         # Manages all simulators
+│   └── requirements.txt
+├── infrastructure/
+│   ├── docker-compose.yml        # Full stack orchestration
+│   ├── kubernetes/               # K8s deployment configs (optional)
+│   └── nginx.conf                # Reverse proxy config
+├── database/
+│   ├── migrations/               # Database migrations
+│   └── seeds/                    # Sample data
+├── docs/
+│   ├── architecture.md           # System architecture
+│   ├── api-documentation.md      # Detailed API docs
+│   ├── deployment.md             # Deployment guide
+│   └── user-guide.md             # User manual
+└── README.md                     # Project overview
+```
+
+## 🔧 Technology Stack
+
+### Backend
+- **Runtime**: Node.js (Express.js)
+- **Database**: PostgreSQL with TimescaleDB extension (for time-series data)
+- **Cache**: Redis (for real-time data and session management)
+- **Message Broker**: Mosquitto MQTT Broker
+- **WebSocket**: Socket.io
+- **Authentication**: JWT + OAuth2.0
+- **Testing**: Jest, Supertest
+- **API Documentation**: Swagger/OpenAPI
+
+### Frontend
+- **Framework**: React with TypeScript
+- **State Management**: Redux Toolkit or Zustand
+- **UI Library**: Material-UI or Tailwind CSS + shadcn/ui
+- **Charts**: Recharts or Chart.js
+- **Real-time**: Socket.io-client
+- **Build Tool**: Vite
+- **Testing**: Vitest, React Testing Library
+
+### IoT Simulation
+- **Language**: Python 3.10+
+- **MQTT Client**: paho-mqtt
+- **Data Generation**: Faker, NumPy
+- **Scheduling**: APScheduler
+
+### DevOps
+- **Containerization**: Docker & Docker Compose
+- **CI/CD**: GitHub Actions
+- **Monitoring**: Prometheus + Grafana (optional)
+- **Logging**: Winston + ELK Stack (optional)
+
+## 🎯 Core Features
+
+### 1. Device Management
+- Register/unregister IoT devices
+- View device status (online/offline)
+- Device grouping by room/type
+- Device metadata management
+
+### 2. Real-Time Monitoring
+- Live sensor data streaming
+- Real-time dashboards with charts
+- Historical data visualization
+- Alerts and notifications
+
+### 3. Device Control
+- Turn devices on/off
+- Adjust device settings (e.g., thermostat temperature)
+- Schedule device actions
+- Create automation rules
+
+### 4. User Management
+- User registration and authentication
+- Role-based access control (Admin, User, Guest)
+- Multi-user support with device sharing
+- User preferences and settings
+
+### 5. Analytics & Reports
+- Energy consumption tracking
+- Device usage statistics
+- Historical trends and patterns
+- Export data to CSV/PDF
+
+### 6. Automation & Scenes
+- Create automation rules (if-then scenarios)
+- Predefined scenes (e.g., "Movie Mode", "Sleep Mode")
+- Time-based automation
+- Sensor-triggered automation
+
+## 📊 Device Types to Simulate
+
+### 1. Temperature & Humidity Sensor
+- Reports temperature (°C/°F) and humidity (%)
+- Updates every 5 seconds
+- Simulates realistic daily variations
+
+### 2. Smart Light Bulb
+- On/Off control
+- Brightness control (0-100%)
+- Color temperature control
+- RGB color control (optional)
+
+### 3. Smart Thermostat
+- Current temperature reading
+- Target temperature setting
+- Operating mode (heat/cool/auto/off)
+- Energy usage tracking
+
+### 4. Smart Door Lock
+- Lock/unlock control
+- Status reporting (locked/unlocked)
+- Access log (who opened, when)
+- Battery level monitoring
+
+### 5. Motion Sensor
+- Detects motion (binary)
+- Last motion timestamp
+- Can trigger other devices
+
+### 6. Security Camera (Simulated)
+- Online/offline status
+- Motion detection alerts
+- Snapshot URL (can use placeholder images)
+- Recording status
+
+### 7. Smart Plug
+- On/Off control
+- Power consumption monitoring (Watts)
+- Daily/monthly energy usage
+
+### 8. Window/Door Sensor
+- Open/closed status
+- Battery level
+- Last updated timestamp
+
+## 🔐 Security Features
+
+1. **Authentication & Authorization**
+   - JWT-based authentication
+   - OAuth2.0 for social login
+   - Role-based access control (RBAC)
+   - API rate limiting
+
+2. **Data Security**
+   - Password hashing (bcrypt)
+   - HTTPS/TLS encryption
+   - SQL injection prevention
+   - XSS protection
+
+3. **MQTT Security**
+   - Username/password authentication
+   - TLS/SSL encryption
+   - Topic-based access control
+
+## 📡 API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
+- `POST /api/auth/refresh` - Refresh access token
+- `GET /api/auth/me` - Get current user
+
+### Devices
+- `GET /api/devices` - Get all devices
+- `GET /api/devices/:id` - Get device by ID
+- `POST /api/devices` - Register new device
+- `PUT /api/devices/:id` - Update device
+- `DELETE /api/devices/:id` - Delete device
+- `POST /api/devices/:id/control` - Send control command
+
+### Sensor Data
+- `GET /api/sensors/:deviceId/data` - Get sensor readings
+- `GET /api/sensors/:deviceId/history` - Get historical data
+- `GET /api/sensors/:deviceId/stats` - Get statistics
+
+### Rooms
+- `GET /api/rooms` - Get all rooms
+- `POST /api/rooms` - Create room
+- `PUT /api/rooms/:id` - Update room
+- `DELETE /api/rooms/:id` - Delete room
+
+### Automation
+- `GET /api/automations` - Get all automation rules
+- `POST /api/automations` - Create automation
+- `PUT /api/automations/:id` - Update automation
+- `DELETE /api/automations/:id` - Delete automation
+
+### Users (Admin only)
+- `GET /api/users` - Get all users
+- `GET /api/users/:id` - Get user by ID
+- `PUT /api/users/:id` - Update user
+- `DELETE /api/users/:id` - Delete user
+
+## 🎨 Frontend Features
+
+### Dashboard
+- Overview cards (total devices, active devices, alerts)
+- Real-time sensor data charts
+- Quick device controls
+- Recent activity feed
+
+### Device Management Page
+- Device list with filters (by room, type, status)
+- Device cards with controls
+- Add/edit/delete devices
+- Device details modal
+
+### Rooms Page
+- Room-based device organization
+- Visual room layout (optional)
+- Room-specific controls
+
+### Analytics Page
+- Energy consumption charts
+- Device usage patterns
+- Historical data visualization
+- Export functionality
+
+### Automation Page
+- Create/edit automation rules
+- Visual rule builder
+- Scene management
+
+### Settings Page
+- User profile
+- Preferences
+- Notifications settings
+- System settings
+
+## 🚀 Advanced Features (Optional - for extra credit)
+
+1. **Voice Control Integration**
+   - Alexa/Google Assistant simulation
+   - Voice command processing
+
+2. **Machine Learning**
+   - Predict user behavior patterns
+   - Anomaly detection in sensor data
+   - Optimize energy usage
+
+3. **Mobile App**
+   - React Native mobile app
+   - Push notifications
+
+4. **Geofencing**
+   - Location-based automation
+   - Auto-lock when leaving home
+
+5. **Energy Optimization**
+   - Smart scheduling suggestions
+   - Cost tracking with utility rates
+
+6. **Multi-Home Support**
+   - Manage multiple properties
+   - Share access with family members
+
+## 📈 Database Schema
+
+### Users Table
+```sql
+CREATE TABLE users (
+    id UUID PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    role VARCHAR(20) DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+### Devices Table
+```sql
+CREATE TABLE devices (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    room_id UUID REFERENCES rooms(id),
+    device_type VARCHAR(50) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    is_online BOOLEAN DEFAULT false,
+    last_seen TIMESTAMP,
+    metadata JSONB,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+### Sensor Data Table (TimescaleDB Hypertable)
+```sql
+CREATE TABLE sensor_data (
+    time TIMESTAMP NOT NULL,
+    device_id UUID REFERENCES devices(id),
+    metric_name VARCHAR(50) NOT NULL,
+    value DOUBLE PRECISION,
+    unit VARCHAR(20)
+);
+
+SELECT create_hypertable('sensor_data', 'time');
+```
+
+### Rooms Table
+```sql
+CREATE TABLE rooms (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+### Automations Table
+```sql
+CREATE TABLE automations (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    trigger JSONB NOT NULL,
+    actions JSONB NOT NULL,
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+## 🧪 Testing Strategy
+
+### Backend Tests
+- Unit tests for services and utilities
+- Integration tests for API endpoints
+- MQTT message handling tests
+- Database query tests
+
+### Frontend Tests
+- Component unit tests
+- Integration tests for pages
+- E2E tests with Cypress/Playwright
+- WebSocket connection tests
+
+### Simulation Tests
+- Device behavior tests
+- MQTT message publishing tests
+- Data generation validation
+
+## 📚 Documentation Requirements
+
+1. **README.md** - Project overview, setup instructions, features
+2. **API Documentation** - Swagger/OpenAPI specification
+3. **Architecture Diagram** - System design visual
+4. **Deployment Guide** - Step-by-step deployment instructions
+5. **User Guide** - How to use the system
+6. **Contributing Guide** - For open-source contributions
+
+## 🎓 Resume/Portfolio Highlights
+
+This project demonstrates:
+- ✅ Full-stack development (Frontend + Backend + IoT)
+- ✅ Real-time data processing (WebSocket + MQTT)
+- ✅ Microservices architecture
+- ✅ Database design (SQL + Time-series data)
+- ✅ Authentication & Security
+- ✅ API design (RESTful + Real-time)
+- ✅ DevOps (Docker, CI/CD)
+- ✅ Testing (Unit + Integration + E2E)
+- ✅ Documentation
+- ✅ Software engineering best practices
+
+## 🚀 Quick Start Implementation Order
+
+### Phase 1: Foundation (Week 1)
+1. Set up project structure
+2. Initialize Docker Compose (PostgreSQL, Redis, MQTT)
+3. Create basic backend with Express.js
+4. Implement user authentication
+
+### Phase 2: IoT Core (Week 2)
+1. Set up MQTT broker and backend MQTT client
+2. Create Python device simulators
+3. Implement device registration API
+4. Store sensor data in PostgreSQL
+
+### Phase 3: Real-time Features (Week 3)
+1. Implement WebSocket for real-time updates
+2. Create Redis caching layer
+3. Build device control API
+4. Add real-time notifications
+
+### Phase 4: Frontend (Week 4)
+1. Create React app with routing
+2. Build dashboard with charts
+3. Implement device management UI
+4. Add real-time data updates
+
+### Phase 5: Advanced Features (Week 5)
+1. Implement automation rules
+2. Add analytics and reporting
+3. Create room management
+4. Build scenes functionality
+
+### Phase 6: Polish & Deploy (Week 6)
+1. Write comprehensive tests
+2. Add documentation
+3. Set up CI/CD pipeline
+4. Deploy to cloud (Heroku/AWS/DigitalOcean)
+
+
+
+---
